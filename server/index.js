@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const _ = require("lodash");
+
+const { doCalculation } = require("./calculation");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -8,8 +9,9 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 app.post("/", (req, res) => {
-    const body = _.pick(req.body, ["message"]);
-    res.send(body);
+    const { operation, num1, num2 } = req.body;
+    const result = doCalculation(operation, num1, num2);
+    res.send({result});
 });
 
 app.get("/", (req,res) => {
